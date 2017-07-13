@@ -1,0 +1,11 @@
+Items:
+  auto-smelt: true
+  auto-pickup: true
+  fortune: false
+  item-name: '&6Item name'
+  type:
+    - DIAMOND_PICKAXE
+    - GOLD_PICKAXE
+    - IRON_PICKAXE
+    - STONE_PICKAXE
+    - WOOD_PICKAXE
