@@ -32,8 +32,6 @@ public class PlayerInteractListerner implements Listener {
 
 				if (a == Action.RIGHT_CLICK_BLOCK || a == Action.RIGHT_CLICK_AIR) {
 					p.launchProjectile(Snowball.class);
-					// p.sendMessage("lanciato");
-					// Location loc =
 					// p.getEyeLocation().toVector().add(p.getLocation().getDirection().multiply(2)).toLocation(p.getWorld(),
 					// p.getLocation().getYaw(), p.getLocation().getPitch());
 					break;
