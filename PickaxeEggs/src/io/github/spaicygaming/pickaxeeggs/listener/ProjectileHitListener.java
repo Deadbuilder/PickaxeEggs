@@ -1,9 +1,10 @@
 package io.github.spaicygaming.pickaxeeggs.listener;
 
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -31,14 +32,17 @@ public class ProjectileHitListener implements Listener {
 		Player shooter = (Player) projectile.getShooter();
 		ItemStack hand = shooter.getInventory().getItemInMainHand();
 
-		for (String i : PickaxeEggs.getItems()) {
+		for (String i : main.getItems()) {
 			if (hand != null && hand.getType() == Material.valueOf(i) && hand.hasItemMeta()
-					&& hand.getItemMeta().getDisplayName().equals(main.iname) && hand.getItemMeta().hasLore()
+					&& hand.getItemMeta().getDisplayName().contains(main.iname) && hand.getItemMeta().hasLore()
+					&& hand.getItemMeta().getLore().equals(main.getLores())
 					&& projectile.getType() == EntityType.SNOWBALL) {
 				Block block = getHittenBlock(projectile);
 
 				if (block.getType() != Material.BEDROCK) {
-					new BlockBreakEvent(block, shooter);
+					//registra evento per autostack, autopickup ecc. di prisonutils
+					Bukkit.getServer().getPluginManager().callEvent(new BlockBreakEvent(block, shooter));
+					//PrisonUtils.registerMiningHandler(handler);
 					block.getLocation().getBlock().setType(Material.AIR);
 				}
 				e.getEntity().remove();
@@ -68,7 +72,26 @@ public class ProjectileHitListener implements Listener {
 		}
 		return block;
 	}
-
+	
+	/*
+	MiningHandler handler = new MiningHandler(){
+        @Override
+        public List<ItemStack> onMine(Player p, Block b, List<ItemStack> drops, ItemStack tool) {
+                // Here you can use any of the above arguments to do almost anything.
+                // In this case we will be checking if the block broken is a Diamond ore block,
+                // and broadcasting if it is.
+                if (b.getType().equals(Material.DIAMOND_ORE)) {
+                        Bukkit.getServer().broadcastMessage(ChatColor.GOLD + p.getName() + " broke diamond ore!");
+                }
+ 
+                // Here is where you can modify drops.
+                // You must return an array of ItemStacks, but in this case we will just leave the original Array as it is.
+                return drops;
+        }
+                       
+	};*/
+ 
+	
 	/*
 	 * private void breakAnimation(Block hittenBlock, Material oldType, byte
 	 * data){ ParticleEffect.BLOCK_CRACK.display(new

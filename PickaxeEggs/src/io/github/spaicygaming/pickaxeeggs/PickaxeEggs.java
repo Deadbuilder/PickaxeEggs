@@ -1,5 +1,6 @@
 package io.github.spaicygaming.pickaxeeggs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -13,15 +14,21 @@ public class PickaxeEggs extends JavaPlugin{
 	private static PickaxeEggs instance;
 	
 	private static List<String> items;
+	private List<String> lores = new ArrayList<>();
 	public String iname = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Items.item-name"));
 	
 	public void onEnable(){
 		instance = this;
 		saveDefaultConfig();
 		items = getConfig().getStringList("Items.type");
+		for (String i : getConfig().getStringList("Items.lores")){
+			lores.add(ChatColor.translateAlternateColorCodes('&', i));
+		}
 		getServer().getPluginManager().registerEvents(new PlayerInteractListerner(), this);
 		getServer().getPluginManager().registerEvents(new ProjectileHitListener(), this);
+		
 		getLogger().info("PickaxeEggs has been Enabled!");
+		
 	}
 	
 	public void onDisable(){
@@ -32,8 +39,12 @@ public class PickaxeEggs extends JavaPlugin{
 		return instance;
 	}
 	
-	public static List<String> getItems(){
+	public List<String> getItems(){
 	  return items;
+	}
+	
+	public List<String> getLores(){
+		  return lores;
 	}
 	
 

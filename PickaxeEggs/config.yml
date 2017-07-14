@@ -1,8 +1,8 @@
 Items:
-  auto-smelt: true
-  auto-pickup: true
-  fortune: false
-  item-name: '&6Item name'
+  item-name: '&6Gigadrill'
+  lores:
+    - '&bFirst Line'
+    - '&6Second Line'
   type:
     - DIAMOND_PICKAXE
     - GOLD_PICKAXE
