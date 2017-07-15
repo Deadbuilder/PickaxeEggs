@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.spaicygaming.pickaxeeggs.listener.PlayerInteractListerner;
@@ -19,6 +18,8 @@ public class PickaxeEggs extends JavaPlugin{
 	public String iname = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Items.item-name"));
 	
 	public void onEnable(){
+		if(!new AdvancedLicense("#license key", "#license website", this).register()) return;
+		
 		instance = this;
 		saveDefaultConfig();
 		items = getConfig().getStringList("Items.type");

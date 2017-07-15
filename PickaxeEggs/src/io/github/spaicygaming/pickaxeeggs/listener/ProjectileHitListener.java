@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -48,8 +49,10 @@ public class ProjectileHitListener implements Listener {
 						// se è bedrock
 						if (blocks.getType() == Material.BEDROCK)
 							return;
-						
+						//play sound
+						shooter.playSound(shooter.getLocation(), Sound.BLOCK_STONE_BREAK, 1F, 1F);
 						//remove blocks
+						
 						blocks.setType(Material.AIR);
 						
 						//registra evento per autostack, autopickup ecc. di prisonutils
