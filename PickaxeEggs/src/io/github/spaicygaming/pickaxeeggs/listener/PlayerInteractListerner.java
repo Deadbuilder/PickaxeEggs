@@ -16,7 +16,7 @@ public class PlayerInteractListerner implements Listener{
 	private PickaxeEggs main = PickaxeEggs.getInstance();
 
 	@EventHandler
-	public void onPlayerInteract(PlayerInteractEvent e) {
+	public void onPlayerInteract(PlayerInteractEvent e){
 		Player p = e.getPlayer();
 
 		for (String i : main.getItems()) {

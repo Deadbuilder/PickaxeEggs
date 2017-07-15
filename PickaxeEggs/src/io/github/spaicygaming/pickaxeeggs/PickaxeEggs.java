@@ -18,7 +18,7 @@ public class PickaxeEggs extends JavaPlugin{
 	public String iname = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Items.item-name"));
 	
 	public void onEnable(){
-		if(!new AdvancedLicense("#license key", "#license website", this).register()) return;
+		if(!new AdvancedLicense("#license key", "#website", this).register()) return;
 		
 		instance = this;
 		saveDefaultConfig();
@@ -29,7 +29,15 @@ public class PickaxeEggs extends JavaPlugin{
 		getServer().getPluginManager().registerEvents(new PlayerInteractListerner(), this);
 		getServer().getPluginManager().registerEvents(new ProjectileHitListener(), this);
 		
+		System.out.println(getSeparators(60, '='));
 		getLogger().info("PickaxeEggs has been Enabled!");
+		System.out.println(getSeparators(60, '='));
+		
+		if (getConfigRadius() > 2){
+			System.out.println(getSeparators(75, '*'));
+			System.out.println("[PickaxeEggs] Invalid Radius, set a value from 1 to 2! Too high values will cause server lag!");
+			System.out.println(getSeparators(75, '*'));
+		}
 		
 	}
 	
@@ -53,5 +61,12 @@ public class PickaxeEggs extends JavaPlugin{
 		return getConfig().getInt("Items.radius");
 	}
 	
+	private String getSeparators(int value, char charValue){
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < value; i++){
+			sb.append(charValue);
+		}
+		return sb.toString();
+	}
 
 }

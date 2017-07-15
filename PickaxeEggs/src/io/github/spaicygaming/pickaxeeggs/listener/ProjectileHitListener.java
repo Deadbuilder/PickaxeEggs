@@ -37,26 +37,32 @@ public class ProjectileHitListener implements Listener {
 
 		Player shooter = (Player) projectile.getShooter();
 		ItemStack hand = shooter.getInventory().getItemInMainHand();
-
+		
+		
 		for (String i : main.getItems()) {
 			if (hand != null && hand.getType() == Material.valueOf(i) && hand.hasItemMeta()
 					&& hand.getItemMeta().getDisplayName().contains(main.iname) && hand.getItemMeta().hasLore()
 					&& hand.getItemMeta().getLore().equals(main.getLores())
 					&& projectile.getType() == EntityType.SNOWBALL) {
 				Block hittenblock = getHittenBlock(projectile);
-
-					for (Block blocks : getRadius(getHittenBlock(projectile).getLocation(), main.getConfigRadius())){
+				
+				ArrayList<Block> rad = getRadius(hittenblock.getLocation(), main.getConfigRadius());
+					for (Block blocks : rad){
 						// se è bedrock
 						if (blocks.getType() == Material.BEDROCK)
 							return;
 						//play sound
 						shooter.playSound(shooter.getLocation(), Sound.BLOCK_STONE_BREAK, 1F, 1F);
-						//remove blocks
 						
+						//remove blocks
 						blocks.setType(Material.AIR);
 						
 						//registra evento per autostack, autopickup ecc. di prisonutils
-						Bukkit.getServer().getPluginManager().callEvent(new BlockBreakEvent(hittenblock, shooter));
+						Bukkit.getServer().getPluginManager().callEvent(new BlockBreakEvent(getHittenBlock(projectile), shooter));
+						
+						//debug message
+						//System.out.println("blocco");
+						
 					}
 					
 				e.getEntity().remove();
@@ -108,5 +114,4 @@ public class ProjectileHitListener implements Listener {
 	    }
 	    return blocks;
 	  }
-	
 }
