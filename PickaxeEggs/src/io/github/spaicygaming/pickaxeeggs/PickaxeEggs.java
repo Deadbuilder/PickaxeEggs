@@ -48,5 +48,9 @@ public class PickaxeEggs extends JavaPlugin{
 		  return lores;
 	}
 	
+	public int getConfigRadius(){
+		return getConfig().getInt("Items.radius");
+	}
+	
 
 }

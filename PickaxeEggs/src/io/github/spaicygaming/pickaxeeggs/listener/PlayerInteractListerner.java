@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.spaicygaming.pickaxeeggs.PickaxeEggs;
 
-public class PlayerInteractListerner implements Listener {
+public class PlayerInteractListerner implements Listener{
 
 	private PickaxeEggs main = PickaxeEggs.getInstance();
 

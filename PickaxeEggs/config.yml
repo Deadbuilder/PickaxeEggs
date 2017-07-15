@@ -1,5 +1,6 @@
 Items:
   item-name: '&6Gigadrill'
+  radius: 2
   lores:
     - '&bFirst Line'
     - '&6Second Line'
