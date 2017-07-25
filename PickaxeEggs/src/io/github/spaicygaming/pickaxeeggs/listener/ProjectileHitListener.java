@@ -1,6 +1,5 @@
 package io.github.spaicygaming.pickaxeeggs.listener;
 
-
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
@@ -37,45 +36,45 @@ public class ProjectileHitListener implements Listener {
 
 		Player shooter = (Player) projectile.getShooter();
 		ItemStack hand = shooter.getInventory().getItemInMainHand();
-		
-		
+
 		for (String i : main.getItems()) {
 			if (hand != null && hand.getType() == Material.valueOf(i) && hand.hasItemMeta()
 					&& hand.getItemMeta().getDisplayName().contains(main.iname) && hand.getItemMeta().hasLore()
 					&& hand.getItemMeta().getLore().equals(main.getLores())
 					&& projectile.getType() == EntityType.SNOWBALL) {
 				Block hittenblock = getHittenBlock(projectile);
-				
+
 				ArrayList<Block> rad = getRadius(hittenblock.getLocation(), main.getConfigRadius());
-					for (Block blocks : rad){
-						// se è bedrock
-						if (blocks.getType() == Material.BEDROCK)
-							return;
-						//play sound
-						shooter.playSound(shooter.getLocation(), Sound.BLOCK_STONE_BREAK, 1F, 1F);
-						
-						//remove blocks
-						blocks.setType(Material.AIR);
-						
-						//registra evento per autostack, autopickup ecc. di prisonutils
-						Bukkit.getServer().getPluginManager().callEvent(new BlockBreakEvent(getHittenBlock(projectile), shooter));
-						
-						//debug message
-						//System.out.println("blocco");
-						
+				for (Block blocks : rad) {
+					// se è bedrock
+					if (blocks.getType() == Material.BEDROCK)
+						return;
+					// play sound
+					shooter.playSound(shooter.getLocation(), Sound.BLOCK_STONE_BREAK, 1F, 1F);
+
+					// registra evento per autostack, autopickup ecc. di
+					// prisonutils
+					if (main.getConfig().getBoolean("registerBlockBreakEvent")){
+						Bukkit.getServer().getPluginManager().callEvent(new BlockBreakEvent(blocks, shooter));
 					}
+
+					// remove blocks
+					blocks.setType(Material.AIR);
 					
+					// debug message
+					// System.out.println("blocco");
+
+				}
+
 				e.getEntity().remove();
 			}
 		}
 
 	}
 
-	
 	private Block getHittenBlock(Entity entity) {
 		World world = entity.getWorld();
-		BlockIterator iterator = new BlockIterator(world, entity.getLocation().toVector(),
-				entity.getVelocity().normalize(), 0.0D, 4);
+		BlockIterator iterator = new BlockIterator(world, entity.getLocation().toVector(), entity.getVelocity().normalize(), 0.0D, 4);
 		Block block = null;
 
 		while (iterator.hasNext()) {
@@ -86,32 +85,29 @@ public class ProjectileHitListener implements Listener {
 		}
 		return block;
 	}
-	
-	  private static ArrayList<Block> getRadius(Location center, int radius)
-	  {
-	    Vector vec = new BlockVector(center.getBlockX(), center.getY(), center.getZ());
-	    int x2 = center.getBlockX();
-	    int y2 = center.getBlockY();
-	    int z2 = center.getBlockZ();
-	    
-	    World world = center.getWorld();
-	    
-	    ArrayList<Block> blocks = new ArrayList<Block>();
-	    for (int x = -radius; x <= radius; x++) {
-	      for (int y = -radius; y <= radius; y++) {
-	        for (int z = -radius; z <= radius; z++) {
-	          if ((y + y2 >= 0) && (y + y2 <= 256))
-	          {
-	            Vector position = vec.clone().add(new Vector(x, y, z));
-	            if (vec.distanceSquared(position) <= (radius + 0.5D) * (radius + 0.5D))
-	            {
-	              Block block = world.getBlockAt(x + x2, y + y2, z + z2);
-	              blocks.add(block);
-	            }
-	          }
-	        }
-	      }
-	    }
-	    return blocks;
-	  }
+
+	private static ArrayList<Block> getRadius(Location center, int radius) {
+		Vector vec = new BlockVector(center.getBlockX(), center.getY(), center.getZ());
+		int x2 = center.getBlockX();
+		int y2 = center.getBlockY();
+		int z2 = center.getBlockZ();
+
+		World world = center.getWorld();
+
+		ArrayList<Block> blocks = new ArrayList<Block>();
+		for (int x = -radius; x <= radius; x++) {
+			for (int y = -radius; y <= radius; y++) {
+				for (int z = -radius; z <= radius; z++) {
+					if ((y + y2 >= 0) && (y + y2 <= 256)) {
+						Vector position = vec.clone().add(new Vector(x, y, z));
+						if (vec.distanceSquared(position) <= (radius + 0.5D) * (radius + 0.5D)) {
+							Block block = world.getBlockAt(x + x2, y + y2, z + z2);
+							blocks.add(block);
+						}
+					}
+				}
+			}
+		}
+		return blocks;
+	}
 }

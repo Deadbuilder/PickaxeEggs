@@ -18,7 +18,7 @@ public class PickaxeEggs extends JavaPlugin{
 	public String iname = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Items.item-name"));
 	
 	public void onEnable(){
-		if(!new AdvancedLicense("#license key", "#website", this).register()) return;
+		if(!new AdvancedLicense("#key", "#website", this).register()) return;
 		
 		instance = this;
 		saveDefaultConfig();
@@ -29,7 +29,7 @@ public class PickaxeEggs extends JavaPlugin{
 		getServer().getPluginManager().registerEvents(new PlayerInteractListerner(), this);
 		getServer().getPluginManager().registerEvents(new ProjectileHitListener(), this);
 		
-		System.out.println(getSeparators(60, '='));
+		//System.out.println(getSeparators(60, '='));
 		getLogger().info("PickaxeEggs has been Enabled!");
 		System.out.println(getSeparators(60, '='));
 		

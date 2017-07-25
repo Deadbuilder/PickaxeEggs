@@ -7,6 +7,7 @@
 Items:
   item-name: '&6Gigadrill'
   radius: 2
+  registerBlockBreakEvent: true
   lores:
     - '&bFirst Line'
     - '&6Second Line'
