@@ -16,13 +16,16 @@ public class PickaxeEggs extends JavaPlugin{
 	private static List<String> items;
 	private List<String> lores = new ArrayList<>();
 	public String iname = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Items.item-name"));
+	public String confprojectilepath = getConfig().getString("Items.projectile");
+	private String projectiletype;
 	
 	public void onEnable(){
-		if(!new AdvancedLicense("#key", "#website", this).register()) return;
+		//if(!new AdvancedLicense("O6GH-A539-OVI6-ABP6", "https://licensesystem.000webhostapp.com/verify.php", this).register()) return;
 		
 		instance = this;
 		saveDefaultConfig();
 		items = getConfig().getStringList("Items.type");
+		
 		for (String i : getConfig().getStringList("Items.lores")){
 			lores.add(ChatColor.translateAlternateColorCodes('&', i));
 		}
@@ -37,6 +40,14 @@ public class PickaxeEggs extends JavaPlugin{
 			System.out.println(getSeparators(75, '*'));
 			System.out.println("[PickaxeEggs] Invalid Radius, set a value from 1 to 2! Too high values will cause server lag!");
 			System.out.println(getSeparators(75, '*'));
+		}
+		
+		// set the projectile
+		if (confprojectilepath.equalsIgnoreCase("snowball") || confprojectilepath.equalsIgnoreCase("egg")){
+			projectiletype = confprojectilepath.toUpperCase();
+		}
+		else{
+			getServer().getConsoleSender().sendMessage(ChatColor.RED + "ERROR! Invalid projectile! Insert 'snowball' or 'egg'.");
 		}
 		
 	}
@@ -59,6 +70,10 @@ public class PickaxeEggs extends JavaPlugin{
 	
 	public int getConfigRadius(){
 		return getConfig().getInt("Items.radius");
+	}
+	
+	public String getProjectileType(){
+		return projectiletype;
 	}
 	
 	private String getSeparators(int value, char charValue){

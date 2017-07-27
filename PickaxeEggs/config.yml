@@ -6,8 +6,11 @@
 
 Items:
   item-name: '&6Gigadrill'
+  # snowball or egg
+  projectile: snowball
+  # sounds list: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+  soundEffect: BLOCK_STONE_BREAK
   radius: 2
-  registerBlockBreakEvent: true
   lores:
     - '&bFirst Line'
     - '&6Second Line'

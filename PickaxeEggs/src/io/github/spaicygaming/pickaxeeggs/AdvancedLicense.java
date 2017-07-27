@@ -14,7 +14,7 @@ public class AdvancedLicense {
 	private Plugin plugin;
 	private String validationServer;
 	private LogType logType = LogType.NORMAL;
-	private String securityKey = "#key ";
+	private String securityKey = "YecoF0I6M05thxLeokoHuW8iUhTdIUInjkfF";
 	
 	public AdvancedLicense(String licenseKey, String validationServer, Plugin plugin){
 		this.licenseKey = licenseKey;

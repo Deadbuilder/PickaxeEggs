@@ -1,6 +1,8 @@
 package io.github.spaicygaming.pickaxeeggs.listener;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Egg;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
@@ -31,7 +33,17 @@ public class PlayerInteractListerner implements Listener{
 				Action a = e.getAction();
 
 				if (a == Action.RIGHT_CLICK_BLOCK || a == Action.RIGHT_CLICK_AIR) {
-					p.launchProjectile(Snowball.class);
+					String proj = main.getProjectileType();
+					if (proj.equalsIgnoreCase("snowball")){
+						p.launchProjectile(Snowball.class);
+					}
+					else if (proj.equalsIgnoreCase("egg")){
+						p.launchProjectile(Egg.class);
+					}
+					else{
+						main.getServer().getConsoleSender().sendMessage(ChatColor.RED + "ERROR! Invalid projectile! Insert 'snowball' or 'egg'.");
+					}
+					
 					// p.getEyeLocation().toVector().add(p.getLocation().getDirection().multiply(2)).toLocation(p.getWorld(),
 					// p.getLocation().getYaw(), p.getLocation().getPitch());
 					break;

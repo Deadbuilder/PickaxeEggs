@@ -12,7 +12,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -31,7 +30,7 @@ public class ProjectileHitListener implements Listener {
 	@EventHandler
 	public void onProjectileHit(ProjectileHitEvent e) {
 		Projectile projectile = e.getEntity();
-		if (!(projectile.getShooter() instanceof Player) || !(projectile instanceof Snowball))
+		if (!(projectile.getShooter() instanceof Player))// || !(projectile instanceof S))
 			return;
 
 		Player shooter = (Player) projectile.getShooter();
@@ -41,22 +40,27 @@ public class ProjectileHitListener implements Listener {
 			if (hand != null && hand.getType() == Material.valueOf(i) && hand.hasItemMeta()
 					&& hand.getItemMeta().getDisplayName().contains(main.iname) && hand.getItemMeta().hasLore()
 					&& hand.getItemMeta().getLore().equals(main.getLores())
-					&& projectile.getType() == EntityType.SNOWBALL) {
+					&& projectile.getType() == EntityType.valueOf(main.getProjectileType())) {
 				Block hittenblock = getHittenBlock(projectile);
 
 				ArrayList<Block> rad = getRadius(hittenblock.getLocation(), main.getConfigRadius());
 				for (Block blocks : rad) {
-					// se è bedrock
+					
+					// prevent bedrock break
 					if (blocks.getType() == Material.BEDROCK)
 						return;
+					
 					// play sound
-					shooter.playSound(shooter.getLocation(), Sound.BLOCK_STONE_BREAK, 1F, 1F);
+					try{
+						shooter.playSound(shooter.getLocation(), Sound.valueOf("Items.soundEffect"), 1F, 1F);
+					}catch(Exception ex){
+						main.getServer().getConsoleSender().sendMessage("ERROR: Invalid Sound! Available sounds: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html");
+					}
+					
 
 					// registra evento per autostack, autopickup ecc. di
 					// prisonutils
-					if (main.getConfig().getBoolean("registerBlockBreakEvent")){
-						Bukkit.getServer().getPluginManager().callEvent(new BlockBreakEvent(blocks, shooter));
-					}
+					Bukkit.getServer().getPluginManager().callEvent(new BlockBreakEvent(blocks, shooter));
 
 					// remove blocks
 					blocks.setType(Material.AIR);
